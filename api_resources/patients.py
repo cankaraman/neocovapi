@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, make_response
+from flask import Flask, jsonify, make_response, request
 from flask_restful import Resource, Api
 
 
@@ -15,6 +15,8 @@ class Patients(Resource):
             #     patient = patients_ref.document(patient_id).get()
             #     return jsonify(patient.to_dict()), 200
             # else:
+            args = request.args.get('arg1')
+            print(args)
             all_patients = [doc.to_dict()
                             for doc in db_service.patients_ref.stream()]
             return make_response(jsonify(all_patients), 200)
