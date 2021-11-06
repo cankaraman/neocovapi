@@ -7,8 +7,15 @@ import json
 
 import firebase_admin
 from firebase_admin import credentials, firestore
-cert_json = json.loads(os.environ["firebase_json"])
-cred = credentials.Certificate(cert_json)
+
+
+cert_file_path = "neo-covid-firebase-key.json"
+if os.path.exists(cert_file_path):
+    cred = credentials.Certificate(cert_file_path)
+else:
+    cert_json = json.loads(os.environ["firebase_json"])
+    cred = credentials.Certificate(cert_file_path)
+
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 patients_ref = db.collection('patients')
