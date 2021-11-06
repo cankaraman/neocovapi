@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, make_response
 from flask_restful import Resource, Api
-
+from flask_cors import CORS
 
 import firebase_admin
 from firebase_admin import credentials, firestore
@@ -13,6 +13,7 @@ patients_ref = db.collection('patients')
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app)
 
 
 class HelloWorld(Resource):
