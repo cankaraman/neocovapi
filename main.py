@@ -2,10 +2,13 @@ from flask import Flask, jsonify, make_response
 from flask_restful import Resource, Api
 from flask_cors import CORS
 
+import os
+import json
+
 import firebase_admin
 from firebase_admin import credentials, firestore
-
-cred = credentials.Certificate("neo-covid-firebase-key.json")
+cert_json = json.loads(os.environ["firebase_json"])
+cred = credentials.Certificate(cert_json)
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 patients_ref = db.collection('patients')
