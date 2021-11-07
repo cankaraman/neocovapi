@@ -56,14 +56,30 @@ class Patients(Resource):
         return ref.where(u'status', u'==', status)
 
     def put(self):
-        raise NotImplementedError()
+        if not self.isPostBodyValid() and request.json.get('id'):
+            return make_response(jsonify('invalid patient json'), 400)
+
+        updated_patient = {
+            'status': request.json['status'],
+            'updated': datetime.now()
+        }
+
+        try:
+            doc_ref = db_service.patients_ref.document(
+                request.json.get('id'))
+            if not doc_ref.get().exists:
+                return make_response(jsonify('patient not found'), 400)
+
+            doc_ref.set(updated_patient, merge=True)
+            return make_response(jsonify('patient status updated'), 201)
+        except Exception as e:
+            return make_response(jsonify('server error'), 500)
 
     def post(self):
-        print(request.json)
         if not self.isPostBodyValid():
             return make_response(jsonify('invalid patient json'), 400)
 
-        new_patient = {
+        updated_patient = {
             'entryDate': datetime.now(),
             'firstName': request.json['firstName'],
             'lastName': request.json['lastName'],
@@ -72,7 +88,7 @@ class Patients(Resource):
         }
 
         try:
-            db_service.patients_ref.add(new_patient)
+            db_service.patients_ref.add(updated_patient)
             return make_response(jsonify('patient added'), 201)
         except Exception as e:
             return make_response(jsonify('server error'), 500)
