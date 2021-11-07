@@ -5,10 +5,11 @@ from firebase_admin import credentials, firestore
 
 __cred = None
 __cert_file_path = "neo-covid-firebase-key.json"
-if os.path.exists(__cert_file_path):
-    __cred = credentials.Certificate(__cert_file_path)
-else:
-    cert_json = json.loads(os.environ["firebase_json"])
+
+
+if 'firebase_json' in os.environ:
+    __cred = json.loads(os.environ["firebase_json"])
+elif os.path.exists(__cert_file_path):
     __cred = credentials.Certificate(__cert_file_path)
 
 firebase_admin.initialize_app(__cred)
