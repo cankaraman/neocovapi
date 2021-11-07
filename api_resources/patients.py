@@ -59,4 +59,27 @@ class Patients(Resource):
         raise NotImplementedError()
 
     def post(self):
-        raise NotImplementedError()
+        print(request.json)
+        if not self.isPostBodyValid():
+            return make_response(jsonify('invalid patient json'), 400)
+
+        new_patient = {
+            'entryDate': datetime.now(),
+            'firstName': request.json['firstName'],
+            'lastName': request.json['lastName'],
+            'status': request.json['status'],
+            'updated': datetime.now()
+        }
+
+        try:
+            db_service.patients_ref.add(new_patient)
+            return make_response(jsonify('patient added'), 201)
+        except Exception as e:
+            return make_response(jsonify('server error'), 500)
+
+    def isPostBodyValid(self):
+        if (not request.json or not 'firstName' in request.json or
+                not 'lastName' in request.json or not 'status' in request.json):
+            return False
+
+        return True
