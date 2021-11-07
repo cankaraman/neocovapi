@@ -28,9 +28,13 @@ class Patients(Resource):
             if fromDate:
                 docs_ref = self. __get_patients_from(docs_ref, fromDate)
 
-            response_docs = [doc.to_dict() for doc in docs_ref.stream()]
+            patients = list()
+            for doc in docs_ref.stream():
+                doct_dict = doc.to_dict()
+                doct_dict['id'] = doc.id
+                patients.append(doct_dict)
 
-            return make_response(jsonify(response_docs), 200)
+            return make_response(jsonify(patients), 200)
         except Exception as e:
             if type(e) is ValueError:
                 return make_response(jsonify('invalid argument'), 400)
@@ -52,4 +56,7 @@ class Patients(Resource):
         return ref.where(u'status', u'==', status)
 
     def put(self):
+        raise NotImplementedError()
+
+    def post(self):
         raise NotImplementedError()
