@@ -1,0 +1,219 @@
+# https://app.swaggerhub.com/apis/cankaraman/neocovapi/0.1
+openapi: 3.0.1
+info:
+  title: defaultTitle
+  description: defaultDescription
+  version: '0.1'
+servers:
+  - url: https://neocovid.herokuapp.com
+paths:
+  /api/v0/patients:
+    get:
+      description: Returns all patient that fits the parameters. Any combination of pareters can be used. If there are no parameters then returns all the patients 
+      parameters:
+        - name: fromDate
+          in: query
+          schema:
+            type: string
+          example: 2021-1-10
+        - name: toDate
+          in: query
+          schema:
+            type: string
+          example: '2021-10-15'
+        - name: status
+          in: query
+          schema:
+            type: string
+          example: infected
+      responses:
+        '200':
+          description: Everythin ok.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                '0':
+                  value: >
+                    [{"entryDate":"Tue, 09 Feb 2021 16:51:38
+                    GMT","firstName":"Elizabeth","id":"pUsWC79gVclMnB3xH0B2","lastName":"Thomas","status":"infected","updated":"Tue,
+                    09 Feb 2021 16:51:38 GMT"},{"entryDate":"Thu, 18 Mar 2021
+                    19:48:08
+                    GMT","firstName":"Alejandro","id":"vXBsfWHgOyh21cFDdXvl","lastName":"Solis","status":"infected","updated":"Thu,
+                    18 Mar 2021 19:48:08 GMT"},{"entryDate":"Thu, 25 Mar 2021
+                    03:19:36
+                    GMT","firstName":"Grant","id":"ZrLBHWkYqjAppBwPFsqx","lastName":"Olsen","status":"infected","updated":"Thu,
+                    25 Mar 2021 03:19:36 GMT"},{"entryDate":"Mon, 03 May 2021
+                    14:08:01
+                    GMT","firstName":"Michelle","id":"sqBqK634IjxmdFVsxtbN","lastName":"Medina","status":"infected","updated":"Mon,
+                    03 May 2021 14:08:01 GMT"}]
+                '1':
+                  value: >
+                    [{"entryDate":"Thu, 29 Jul 2021 17:20:19
+                    GMT","firstName":"Daniel","id":"3elhmxZ2u2bCXyafPR4x","lastName":"Porter","status":"recovered","updated":"Thu,
+                    29 Jul 2021 17:20:19 GMT"},{"entryDate":"Fri, 29 Oct 2021
+                    15:46:03
+                    GMT","firstName":"Amanda","id":"53Yzybp2zIkwGuwUjQ6v","lastName":"Byrd","status":"recovered","updated":"Fri,
+                    29 Oct 2021 15:46:03 GMT"},{"entryDate":"Fri, 12 Nov 2021
+                    23:00:00
+                    GMT","firstName":"Jane","id":"G3hpz7puaNLxhImF8oO7","lastName":"Doe","status":"recovered","updated":"Fri,
+                    12 Nov 2021 23:00:00 GMT"},{"entryDate":"Fri, 07 May 2021
+                    01:55:25
+                    GMT","firstName":"Alyssa","id":"GaYYxjTIpoTX5HwSbsmG","lastName":"Davenport","status":"recovered","updated":"Fri,
+                    07 May 2021 01:55:25 GMT"},{"entryDate":"Sun, 07 Nov 2021
+                    14:01:26
+                    GMT","firstName":"New","id":"OFA8t0bfT32F6JRpvD1i","lastName":"Patient","status":"decesead","updated":"Sun,
+                    07 Nov 2021 14:01:26 GMT"},{"entryDate":"Tue, 16 Mar 2021
+                    13:00:01
+                    GMT","firstName":"Jocelyn","id":"QFN3Jxo8lVChXmJvkzVs","lastName":"Schultz","status":"infected","updated":"Tue,
+                    16 Mar 2021 13:00:01 GMT"},{"entryDate":"Fri, 05 Nov 2021
+                    23:00:00
+                    GMT","firstName":"John","id":"RcwJbBgAriutj0ZwB4V8","lastName":"Doe","status":"infected","updated":"Fri,
+                    05 Nov 2021 23:00:00 GMT"},{"entryDate":"Mon, 11 Jan 2021
+                    07:58:58
+                    GMT","firstName":"Connie","id":"YjoaF46VEjyWsdvjI4sX","lastName":"Bradley","status":"deceased","updated":"Mon,
+                    11 Jan 2021 07:58:58 GMT"},{"entryDate":"Thu, 25 Mar 2021
+                    03:19:36
+                    GMT","firstName":"Grant","id":"ZrLBHWkYqjAppBwPFsqx","lastName":"Olsen","status":"infected","updated":"Thu,
+                    25 Mar 2021 03:19:36 GMT"},{"entryDate":"Mon, 01 Mar 2021
+                    08:07:46
+                    GMT","firstName":"Beverly","id":"g2gPFHc0dm5jqGOHtyPU","lastName":"Blake","status":"recovered","updated":"Mon,
+                    01 Mar 2021 08:07:46 GMT"},{"entryDate":"Tue, 30 Mar 2021
+                    01:10:05
+                    GMT","firstName":"Mark","id":"k8a4VcplVUFiZnmU1nji","lastName":"Parrish","status":"recovered","updated":"Tue,
+                    30 Mar 2021 01:10:05 GMT"},{"entryDate":"Mon, 10 May 2021
+                    23:41:28
+                    GMT","firstName":"Amanda","id":"lMHD79gzQAzFFrnFoN2f","lastName":"Fletcher","status":"deceased","updated":"Mon,
+                    10 May 2021 23:41:28 GMT"},{"entryDate":"Sun, 07 Nov 2021
+                    12:48:57
+                    GMT","firstName":"New","id":"lZoZHO7OASMwRL4HBKkN","lastName":"Patient","status":"decesead","updated":"Sun,
+                    07 Nov 2021 13:28:45 GMT"},{"entryDate":"Tue, 09 Feb 2021
+                    16:51:38
+                    GMT","firstName":"Elizabeth","id":"pUsWC79gVclMnB3xH0B2","lastName":"Thomas","status":"infected","updated":"Tue,
+                    09 Feb 2021 16:51:38 GMT"},{"entryDate":"Mon, 03 May 2021
+                    14:08:01
+                    GMT","firstName":"Michelle","id":"sqBqK634IjxmdFVsxtbN","lastName":"Medina","status":"infected","updated":"Mon,
+                    03 May 2021 14:08:01 GMT"},{"entryDate":"Wed, 20 Oct 2021
+                    22:50:48
+                    GMT","firstName":"Mark","id":"uOlEVmcOWEPqAoIhQxVg","lastName":"Thomas","status":"deceased","updated":"Wed,
+                    20 Oct 2021 22:50:48 GMT"},{"entryDate":"Thu, 18 Mar 2021
+                    19:48:08
+                    GMT","firstName":"Alejandro","id":"vXBsfWHgOyh21cFDdXvl","lastName":"Solis","status":"infected","updated":"Thu,
+                    18 Mar 2021 19:48:08 GMT"}]
+      servers:
+        - url: https://neocovid.herokuapp.com
+    put:
+      description: Updates a given patient. All the fields in the example are required. Only the status of the patient can be changed with this endpoint
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                id:
+                  type: string
+                status:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                          "firstName": "Jocelyn",
+                          "id": "QFN3Jxo8lVChXmJvkzVs",
+                          "lastName": "Schultz",
+                          "status": "infected"
+                  }
+
+      responses:
+        '201':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                '0':
+                  value: |
+                    "patient status updated"
+        '400':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                '0':
+                  value: |
+                    "invalid patient json"
+      servers:
+        - url: https://neocovid.herokuapp.com
+    post:
+      description: Creates new patients. If the generate parameter is not set then firstName, lastName and status are required. If the generate parameter is a valid integer then the request body is ignored and random patients are created with the count from the generate parameter.
+      parameters:
+        - name: generate
+          in: query
+          schema:
+            type: string
+          example: '3'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                id:
+                  type: string
+                status:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                          "firstName": "Alejandro",
+                          "lastName": "Schultz",
+                          "status": "infected"
+                  }
+              '1':
+                value: '{}'
+      responses:
+        '201':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                '0':
+                  value: |
+                    "patient added"
+                '1':
+                  value: |
+                    "random 3 patient(s) added"
+        '400':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                '0':
+                  value: |
+                    "invalid patient json"
+      servers:
+        - url: https://neocovid.herokuapp.com
+    servers:
+      - url: https://neocovid.herokuapp.com
