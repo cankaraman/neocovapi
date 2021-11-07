@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, make_response, request
 from flask_restful import Resource, Api
-
+from utils import fake_patient_generator
 
 from services import db_service
 from datetime import datetime
@@ -56,7 +56,7 @@ class Patients(Resource):
         return ref.where(u'status', u'==', status)
 
     def put(self):
-        if not self.isPostBodyValid() and request.json.get('id'):
+        if not self.__isPostBodyValid() and request.json.get('id'):
             return make_response(jsonify('invalid patient json'), 400)
 
         updated_patient = {
@@ -76,24 +76,57 @@ class Patients(Resource):
             return make_response(jsonify('server error'), 500)
 
     def post(self):
-        if not self.isPostBodyValid():
-            return make_response(jsonify('invalid patient json'), 400)
+        generate = request.args.get('generate')
+        if self.__shouldGeneratePatients(generate):
+            generate = int(generate)
+            return self.__add_generated_patients(generate)
+        else:
+            if not self.__isPostBodyValid():
+                return make_response(jsonify('invalid patient json'), 400)
 
-        updated_patient = {
-            'entryDate': datetime.now(),
-            'firstName': request.json['firstName'],
-            'lastName': request.json['lastName'],
-            'status': request.json['status'],
-            'updated': datetime.now()
-        }
+            new_patient = {
+                'entryDate': datetime.now(),
+                'firstName': request.json['firstName'],
+                'lastName': request.json['lastName'],
+                'status': request.json['status'],
+                'updated': datetime.now()
+            }
+
+            try:
+                db_service.patients_ref.add(new_patient)
+                return make_response(jsonify('patient added'), 201)
+            except Exception as e:
+                return make_response(jsonify('server error'), 500)
+
+    def __shouldGeneratePatients(self, generate):
+
+        if not generate:
+            return False
 
         try:
-            db_service.patients_ref.add(updated_patient)
-            return make_response(jsonify('patient added'), 201)
-        except Exception as e:
-            return make_response(jsonify('server error'), 500)
+            if int(generate) > 0:
+                return True
+        except ValueError as e:
+            return False
 
-    def isPostBodyValid(self):
+        return False
+
+    def __add_generated_patients(self, generate):
+        fake_patients = fake_patient_generator.generate_fake_patients(
+            generate)
+        try:
+            batch = db_service.db.batch()
+            for patient in fake_patients:
+                batch.set(db_service.patients_ref.document(), patient)
+
+            batch.commit()
+
+            return make_response(jsonify(f'random {generate} patient(s) added'), 201)
+
+        except Exception as e:
+            return make_response(jsonify(f'server error, adding random {generate} patient(s) failed'), 500)
+
+    def __isPostBodyValid(self):
         if (not request.json or not 'firstName' in request.json or
                 not 'lastName' in request.json or not 'status' in request.json):
             return False

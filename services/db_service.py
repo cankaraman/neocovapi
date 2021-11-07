@@ -12,5 +12,5 @@ else:
     __cred = credentials.Certificate(__cert_file_path)
 
 firebase_admin.initialize_app(__cred)
-__db = firestore.client()
-patients_ref = __db.collection('patients')
+db = firestore.client()
+patients_ref = db.collection('patients')
